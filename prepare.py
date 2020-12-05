@@ -1,9 +1,6 @@
 import numpy as np
 import pandas as pd
-<<<<<<< HEAD
 import os
-=======
->>>>>>> 00ba46a4e0670350061948e17cf6b2e837122ca8
 import unicodedata
 import re
 import nltk
@@ -23,11 +20,7 @@ def basic_clean(string):
     # remove anything that is not a through z, a number, a single quote, or whitespace
     string = re.sub(r"[^a-z0-9'\s]", ' ', string)
     # remove single numbers and single apostrophes
-<<<<<<< HEAD
     string = re.sub(r"\s\d\s|'", ' ', string)
-=======
-    string = re.sub(r"\s\d\s|\s'\s", ' ', string)
->>>>>>> 00ba46a4e0670350061948e17cf6b2e837122ca8
     return string
 
 def tokenize(string):
@@ -109,11 +102,7 @@ def prep_data(df, column, extra_words=[], exclude_words=[]):
     lemmatized text, cleaned, tokenized, & lemmatized text with stopwords removed.
     '''
     # Removes null values from the dataframe
-<<<<<<< HEAD
     df = df.dropna().reset_index(drop=True)
-=======
-    df = df.dropna().reset_index()
->>>>>>> 00ba46a4e0670350061948e17cf6b2e837122ca8
 
     df['clean'] = df[column].apply(basic_clean).apply(tokenize).apply(remove_stopwords, extra_words=extra_words, exclude_words=exclude_words).apply(lemmatize).apply(remove_stopwords, extra_words=extra_words, exclude_words=exclude_words).apply(basic_clean)
     
@@ -130,7 +119,6 @@ def prep_data(df, column, extra_words=[], exclude_words=[]):
     df['stopwords_removed'] = df.apply(lambda row: len(row['lemmatized'].split()) - len(row['clean'].split()), axis=1)
 
     # Removes null values from the dataframe
-<<<<<<< HEAD
     df = df.dropna().reset_index(drop=True)
 
     # Drop rows where doc_length = 0
@@ -159,8 +147,3 @@ def get_prepped_data(df, column):
     else:
         df = pd.read_csv('headlines.csv')
         return df
-=======
-    df = df.dropna().reset_index()
-
-    return df[['label', column, 'stemmed', 'lemmatized', 'clean', 'stopwords_removed', 'doc_length', 'words']]
->>>>>>> 00ba46a4e0670350061948e17cf6b2e837122ca8
