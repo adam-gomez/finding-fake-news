@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 from numpy.random import choice
-
+from sklearn.metrics import roc_auc_score, roc_curve
 import re
 import unicodedata
 import nltk
@@ -117,3 +117,12 @@ def h_bar_proportions(word_counts, onion_words_df, all_words_df):
 
     # Adding a title
     plt.title('Proportion of Onion vs Not-Onion for the 20 most common words', fontsize=18)
+
+def generate_auc_roc_curve(clf, X_set, Y_set):
+    y_pred_proba = clf.predict_proba(X_set)[:, 1]
+    fpr, tpr, thresholds = roc_curve(Y_set,  y_pred_proba)
+    auc = roc_auc_score(Y_set, y_pred_proba)
+    plt.plot(fpr,tpr,label="AUC ROC Curve with Area Under the Curve ="+str(auc))
+    plt.legend(loc=4)
+    plt.show()
+    pass
