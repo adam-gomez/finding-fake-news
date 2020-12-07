@@ -55,15 +55,15 @@ There may also be differences in the length of the headline. The Onion has no hi
 I also suspect that the number of stopwords might be slightly different between Onion and non-Onion publishers. Given the more conversational style of Onion headlines, there might be a significant enough difference to include this as a feature. 
 
 ### Hypotheses
-Is there a difference between the mean lengths of articles from The Onion and articles not from The Onion?
+Are headlines from The Onion longer than headlines from non-Onion sources?
 ```
-Null hypothesis: There is no difference in article lengths.
-Alternative hypothesis: The lengths of Onion articles differs from the lengths of non-Onion articles.
+Null hypothesis: There is no difference in headline lengths.
+Alternative hypothesis: The lengths of Onion headlines differs from the lengths of non-Onion headlines.
 ```
-
+Are there more stopwords in Onion headlines than non-Onion headlines?
 ```
-Null hypothesis: There is no difference in the number of stopwords in Onion articles and non-Onion articles.
-Alternative hypothesis: There is a difference in the number of stopwords in Onion articles and non-Onion articles.
+Null hypothesis: There is no difference in the number of stopwords in Onion headlines and non-Onion headlines.
+Alternative hypothesis: There is a difference in the number of stopwords in Onion headlines and non-Onion headlines.
 ```
 
 ## Project Steps
@@ -73,30 +73,33 @@ Scrape headlines from r/TheOnion and r/NotTheOnion utilizing Reddit's API
 - Clean strings by removing non-alphanumeric characters and lowercasing all letters
 - Stem and lemmatize words
 - Remove common stopwords
-- Determine length of each article headline
+- Determine length of each article's headline
 - Determine number of stopwords removed
 
 ### Explore
-Can use exandable text for large amounts of text.
-<details>
-  <summary> Click to Expand </summary>
-  
-  Text goes in here. Maybe an image.
-  ### Headers Still Work
-  If you add an empty line between the summary code and text.
-</details>
+Statistical testing established that there Onion headlines are longer and have more stopwords removed than Non-Onion headlines. Although not tested statistically, it appears that Onion headlines have more expletives. Word counts, ratios, and word clouds revealed that the the two classes are very similar to each other in presentation. 
+
+The data suffers from significant class imbalance (94% Non-onion to 6% Onion). Rebalancing the sample will be integral to model performance on unseen data.
 
 ### Model
-- Short
-  - Description
+- Logistic Regression with Bag of Words Vectorization and Random Oversampling of Minority Class 
+  - Overall accuracy of the top model: 89.5%
+  - f1-score: 0.44
+  - Onion headlines
+    - recall: 0.67
+    - precision: 0.33
+  - Non-Onion headlines
+    - recall: 0.91
+    - precision: 0.98
   
 ### Conclusions
-Key insights from project.
+The value of resampling an imbalanced dataset cannot be understated. Resampling the dataset showed substantial improvement in the model's ability to predict the minority class with only a relatively small loss in predicting the majority class. In cases where a false negative is more costly than a false positive (as may often be the case in imbalanced datasets (fraud, disease detection, etc.)) resampling is essential.
+
+In the case of our model, while we did end up with an f1-score of 0.44 (precision: 0.33, recall: 0.67), the model is not accurate enough to use as a hard screen (meaning that we take action on predicted fake news headlines without additional oversight). If this were to be used in production, it could be used to flag headlines for users, to warn them to consider the possibility that the information is fictional.
 
 
-### Tools & Requirements
-What tools did you use and what version were they?  
-Python version 3.85
+### Replicating This Project
+Data was retrieved from Reddit's API by querying each daily period over a 12 year time frame. This process is very time consuming, and should take 4 hours to complete. 
 
 ## License
 Your permissions for users when reproducing your project.
